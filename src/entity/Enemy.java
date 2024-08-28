@@ -18,14 +18,14 @@ public class Enemy extends Entity {
         this.xPosition = xPosition;
         this.enemyNumber = enemyNumber;
         setDefaultValues();
-        getEnemyWave();
+        getEnemyImage();
     }
     public void  setDefaultValues() {
         x = xPosition;
         y = 100;
         speed = 2;
     }
-    public void getEnemyWave() {
+    public void getEnemyImage() {
         try {
             File f1;
             switch (enemyNumber) {
