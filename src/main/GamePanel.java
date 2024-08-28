@@ -30,13 +30,18 @@ public class GamePanel extends JPanel implements Runnable{
     Player player = new Player(this, keyHandler);
     
 
-    Enemy[] enemyArray = initializeEnemyArray(1);
+    Enemy[][] enemyArray;
+    // Enemy[] enemyArrayTwo = initializeEnemyArray(2);
+    // Enemy[] enemyArrayThree = initializeEnemyArray(1);
+    // Enemy[] enemyArrayFour = initializeEnemyArray(2);
+    // Enemy[] enemyArrayFive = initializeEnemyArray(1);
     public GamePanel () {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.gray);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+        enemyArray = initializeEnemyArray(1);
     }
 
     public void startGameThread() {
@@ -77,7 +82,9 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public void updateEnemies() {
         for (int i = 0; i < enemyArray.length; i++) {
-            enemyArray[i].update();
+            for (int j = 0; j < enemyArray[0].length; j++) {
+                enemyArray[i][j].update();
+            }
         }
     }
     public void paintComponent(Graphics g) {
@@ -88,16 +95,31 @@ public class GamePanel extends JPanel implements Runnable{
         // enemyTwo.draw(g2);
 
         for (int i = 0; i < enemyArray.length; i++) {
-            enemyArray[i].draw(g2);
+            for (int j = 0; j < enemyArray[0].length; j++) {
+                enemyArray[i][j].draw(g2);
+            }
         }
         g2.dispose();
     }
 
-    public Enemy[] initializeEnemyArray(int enemyNumber) {
-        enemyArray = new Enemy[10];
-        for (int i = 0; i < enemyArray.length; i++) {
-            enemyArray[i] = new Enemy(this, (i * this.tileSize) + 100, enemyNumber);
+    public Enemy[][] initializeEnemyArray(int enemyNumber) {
+        Enemy[][] newEnemyArray = new Enemy[5][10];
+        for (int i = 0; i < newEnemyArray.length; i++) {
+            // enemyArray[i] = new Enemy(this, (i * this.tileSize) + 100, enemyNumber);
+            for (int j = 0; j < newEnemyArray[0].length; j++) {
+                newEnemyArray[i][j] = new Enemy(this, (j * this.tileSize) + 100, (i * this.tileSize), enemyNumber);
+            }
+            switch (enemyNumber) {
+                case 1:
+                    enemyNumber = 2;
+                    break;
+                case 2:
+                    enemyNumber = 1;
+                    break;
+                default:
+                    break;
+            }
         }
-        return enemyArray;
+        return newEnemyArray;
     }
 }

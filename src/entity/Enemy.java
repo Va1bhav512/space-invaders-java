@@ -11,12 +11,14 @@ import main.GamePanel;
 public class Enemy extends Entity {
     GamePanel gamePanel;
     int xPosition;
+    int yPosition;
     int enemyNumber;
     int count = 0;
 
-    public Enemy(GamePanel gamePanel, int xPosition, int enemyNumber) {
+    public Enemy(GamePanel gamePanel, int xPosition, int yPosition, int enemyNumber) {
         this.gamePanel = gamePanel;
         this.xPosition = xPosition;
+        this.yPosition = yPosition;
         this.enemyNumber = enemyNumber;
         this.direction = "left";
         setDefaultValues();
@@ -24,7 +26,7 @@ public class Enemy extends Entity {
     }
     public void  setDefaultValues() {
         x = xPosition;
-        y = 100;
+        y = yPosition;
         speed = 50;
     }
     public void getEnemyImage() {
