@@ -3,9 +3,12 @@ package main;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.Color;
 import javax.swing.JPanel;
 
+import entity.Bullet;
 import entity.Enemy;
 import entity.Player;
 
@@ -18,6 +21,8 @@ public class GamePanel extends JPanel implements Runnable{
     final int maxScreenRow = 12;
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
+    private long lastBulletTime = 0;
+    private final long bulletCooldown = 500000000;
     KeyHandler keyHandler = new KeyHandler();
 
     int playerX = 100;
@@ -27,14 +32,10 @@ public class GamePanel extends JPanel implements Runnable{
     int FPS = 60;
 
     Thread gameThread;
+    List<Bullet> bullets = new ArrayList<>();
     Player player = new Player(this, keyHandler);
-    
 
     Enemy[][] enemyArray;
-    // Enemy[] enemyArrayTwo = initializeEnemyArray(2);
-    // Enemy[] enemyArrayThree = initializeEnemyArray(1);
-    // Enemy[] enemyArrayFour = initializeEnemyArray(2);
-    // Enemy[] enemyArrayFive = initializeEnemyArray(1);
     public GamePanel () {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.gray);
@@ -65,9 +66,10 @@ public class GamePanel extends JPanel implements Runnable{
             lastTime = currentTime;
 
             if (delta >= 1) {
-            update();
-            repaint();
-            delta--;
+                player.update();
+                updateBullets();
+                repaint();
+                delta--;
             }
             
             if (currentTime - lastEnemyUpdationTime >= enemyUpdateInterval) {
@@ -77,8 +79,24 @@ public class GamePanel extends JPanel implements Runnable{
             
         }
     }
-    public void update() {
-        player.update();
+    public void updateBullets() {
+        long currentBulletTime = System.nanoTime();
+
+        if ((keyHandler.spacePressed || keyHandler.enterPressed) && (currentBulletTime - lastBulletTime >= bulletCooldown)) {
+            bullets.add(new Bullet(this,(player.x + tileSize/2)-5,player.y,"up"));
+            keyHandler.enterPressed = false;
+            keyHandler.spacePressed = false;
+            lastBulletTime = currentBulletTime;
+        }
+
+        for (int i = 0; i < bullets.size(); i++) {
+            Bullet bullet = bullets.get(i);
+            bullet.update();
+            if (bullet.y < 0) {
+                bullets.remove(i);
+                i--;
+            }
+        }
     }
     public void updateEnemies() {
         for (int i = 0; i < enemyArray.length; i++) {
@@ -91,13 +109,14 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         player.draw(g2);
-        // enemyOne.draw(g2);
-        // enemyTwo.draw(g2);
 
         for (int i = 0; i < enemyArray.length; i++) {
             for (int j = 0; j < enemyArray[0].length; j++) {
                 enemyArray[i][j].draw(g2);
             }
+        }
+        for (Bullet bullet : bullets) {
+            bullet.draw(g2);
         }
         g2.dispose();
     }
@@ -105,7 +124,6 @@ public class GamePanel extends JPanel implements Runnable{
     public Enemy[][] initializeEnemyArray(int enemyNumber) {
         Enemy[][] newEnemyArray = new Enemy[3][10];
         for (int i = 0; i < newEnemyArray.length; i++) {
-            // enemyArray[i] = new Enemy(this, (i * this.tileSize) + 100, enemyNumber);
             for (int j = 0; j < newEnemyArray[0].length; j++) {
                 newEnemyArray[i][j] = new Enemy(this, (j * this.tileSize) + 100, (i * this.tileSize), enemyNumber);
             }
