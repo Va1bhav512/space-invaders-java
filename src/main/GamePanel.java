@@ -28,8 +28,12 @@ public class GamePanel extends JPanel implements Runnable{
 
     Thread gameThread;
     Player player = new Player(this, keyHandler);
-    Enemy enemyOne = new Enemy(this, 0, 1);
-    Enemy enemyTwo = new Enemy(this, this.tileSize, 2);
+    
+
+    // enemyArray = new Enemy[10];
+    Enemy[] enemyArray = initializeEnemyArray(1);
+    // Enemy enemyOne = new Enemy(this, 0, 1);
+    // Enemy enemyTwo = new Enemy(this, this.tileSize, 2);
     public GamePanel () {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.gray);
@@ -72,8 +76,20 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         player.draw(g2);
-        enemyOne.draw(g2);
-        enemyTwo.draw(g2);
+        // enemyOne.draw(g2);
+        // enemyTwo.draw(g2);
+
+        for (int i = 0; i < enemyArray.length; i++) {
+            enemyArray[i].draw(g2);
+        }
         g2.dispose();
+    }
+
+    public Enemy[] initializeEnemyArray(int enemyNumber) {
+        enemyArray = new Enemy[10];
+        for (int i = 0; i < enemyArray.length; i++) {
+            enemyArray[i] = new Enemy(this, (i * this.tileSize) + 100, enemyNumber);
+        }
+        return enemyArray;
     }
 }
