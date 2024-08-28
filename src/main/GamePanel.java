@@ -30,10 +30,7 @@ public class GamePanel extends JPanel implements Runnable{
     Player player = new Player(this, keyHandler);
     
 
-    // enemyArray = new Enemy[10];
     Enemy[] enemyArray = initializeEnemyArray(1);
-    // Enemy enemyOne = new Enemy(this, 0, 1);
-    // Enemy enemyTwo = new Enemy(this, this.tileSize, 2);
     public GamePanel () {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.gray);
@@ -53,6 +50,8 @@ public class GamePanel extends JPanel implements Runnable{
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
+        long lastEnemyUpdationTime = System.nanoTime();
+        long enemyUpdateInterval = (long) 1.5 * 1000000000;
 
         while (gameThread != null) {
             currentTime = System.nanoTime();
@@ -66,11 +65,20 @@ public class GamePanel extends JPanel implements Runnable{
             delta--;
             }
             
+            if (currentTime - lastEnemyUpdationTime >= enemyUpdateInterval) {
+                updateEnemies();
+                lastEnemyUpdationTime = currentTime;
+            }
+            
         }
     }
     public void update() {
         player.update();
-        // enemy.update();
+    }
+    public void updateEnemies() {
+        for (int i = 0; i < enemyArray.length; i++) {
+            enemyArray[i].update();
+        }
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

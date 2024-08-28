@@ -12,18 +12,20 @@ public class Enemy extends Entity {
     GamePanel gamePanel;
     int xPosition;
     int enemyNumber;
+    int count = 0;
 
     public Enemy(GamePanel gamePanel, int xPosition, int enemyNumber) {
         this.gamePanel = gamePanel;
         this.xPosition = xPosition;
         this.enemyNumber = enemyNumber;
+        this.direction = "left";
         setDefaultValues();
         getEnemyImage();
     }
     public void  setDefaultValues() {
         x = xPosition;
         y = 100;
-        speed = 2;
+        speed = 50;
     }
     public void getEnemyImage() {
         try {
@@ -42,7 +44,24 @@ public class Enemy extends Entity {
         } catch (IOException e) {
             e.printStackTrace();;
         }
+    }public void update() {
+    if (direction.equals("left")) {
+        x -= speed;
+        count--;
+        if (count <= -1) {
+            direction = "right";
+            count = 0;
+        }
+    } else if (direction.equals("right")) {
+        x += speed;
+        count++;
+        if (count >= 4) {
+            direction = "left";
+            count = 3;
+        }
     }
+}
+
     public void draw(Graphics2D g2) {
         BufferedImage image = defaultImage;
         g2.drawImage(image,x,y,gamePanel.tileSize,gamePanel.tileSize,null);
