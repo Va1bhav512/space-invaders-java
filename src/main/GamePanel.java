@@ -103,7 +103,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public Enemy[][] initializeEnemyArray(int enemyNumber) {
-        Enemy[][] newEnemyArray = new Enemy[5][10];
+        Enemy[][] newEnemyArray = new Enemy[3][10];
         for (int i = 0; i < newEnemyArray.length; i++) {
             // enemyArray[i] = new Enemy(this, (i * this.tileSize) + 100, enemyNumber);
             for (int j = 0; j < newEnemyArray[0].length; j++) {

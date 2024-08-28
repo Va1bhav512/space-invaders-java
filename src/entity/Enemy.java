@@ -48,19 +48,23 @@ public class Enemy extends Entity {
         }
     }public void update() {
     if (direction.equals("left")) {
-        x -= speed;
-        count--;
         if (count <= -1) {
+            y += gamePanel.tileSize;
             direction = "right";
             count = 0;
+            return;
         }
+        x -= speed;
+        count--;
     } else if (direction.equals("right")) {
-        x += speed;
-        count++;
         if (count >= 4) {
+            y += gamePanel.tileSize;
             direction = "left";
             count = 3;
+            return;
         }
+        x += speed;
+        count++;
     }
 }
 
