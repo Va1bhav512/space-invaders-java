@@ -43,10 +43,6 @@ public class Player extends Entity{
         }
     }
     public void update() {
-        // if (keyHandler.upPressed) {
-        //     playerY -= playerSpeed;
-        // } else if (keyHandler.downPressed) {
-        //     playerY += playerSpeed;
         if (keyHandler.rightPressed) {
             if (!(x == gamePanel.screenWidth - gamePanel.tileSize)) {
                 direction = "right";
