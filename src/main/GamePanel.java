@@ -38,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable{
     Enemy[][] enemyArray;
     public GamePanel () {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
-        this.setBackground(Color.gray);
+        this.setBackground(new Color(46,7,43));
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
