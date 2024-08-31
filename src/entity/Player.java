@@ -2,6 +2,7 @@ package entity;
 
 import main.KeyHandler;
 
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 import java.io.File;
@@ -14,6 +15,7 @@ import main.GamePanel;
 public class Player extends Entity{
     GamePanel gamePanel;
     KeyHandler keyHandler;
+    public Rectangle hitbox;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
@@ -26,6 +28,7 @@ public class Player extends Entity{
         y = gamePanel.screenHeight - gamePanel.tileSize;
         speed = 4;
         direction = "left";
+        hitbox = new Rectangle(x,y,gamePanel.tileSize,gamePanel.tileSize);
     }
     public void getPlayerImage() {
         try {
