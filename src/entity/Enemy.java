@@ -16,7 +16,7 @@ public class Enemy extends Entity {
     int enemyNumber;
     int count = 0;
     private long lastBulletTime;
-    private final long bulletCooldownForEnemy = 2000000000;
+    private final long bulletCooldownForEnemy = 3000000000L;
     // long enemyUpdateInterval;
     public Rectangle hitbox;
     public boolean isHit;
@@ -83,7 +83,7 @@ public class Enemy extends Entity {
     public void updateBulletsEnemy() {
         long currentTime = System.nanoTime();
         if (currentTime - lastBulletTime >= bulletCooldownForEnemy) {
-            gamePanel.bullets.add(new Bullet(gamePanel, x, y + gamePanel.tileSize, "down"));
+            gamePanel.bullets.add(new Bullet(gamePanel, x, y + gamePanel.tileSize, "down",1));
             lastBulletTime = currentTime;
         }
     }

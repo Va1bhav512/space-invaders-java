@@ -85,7 +85,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void updateBullets() {
         long currentBulletTime = System.nanoTime();
         if ((keyHandler.spacePressed || keyHandler.enterPressed) && (currentBulletTime - lastBulletTimeByPlayer >= bulletCooldown)) {
-            bullets.add(new Bullet(this,(player.x + tileSize/2)-5,player.y,"up"));
+            bullets.add(new Bullet(this,(player.x + tileSize/2)-5,player.y,"up",10));
             keyHandler.enterPressed = false;
             keyHandler.spacePressed = false;
             lastBulletTimeByPlayer = currentBulletTime;

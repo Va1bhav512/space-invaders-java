@@ -10,20 +10,23 @@ public class Bullet extends Entity{
     GamePanel gamePanel;
     int xPosition;
     int yPosition;
+    int bSpeed;
     public String bDirection;
     public Rectangle hitbox;
 
-    public Bullet(GamePanel gamePanel, int xPosition, int yPosition, String bDirection) {
+    public Bullet(GamePanel gamePanel, int xPosition, int yPosition, String bDirection, int bSpeed) {
         this.gamePanel = gamePanel;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.bDirection = bDirection;
+        this.bSpeed = bSpeed;
         setDefaultValues();
     }
     public void setDefaultValues() {
         x = xPosition;
         y = yPosition;
-        speed = 10;
+        // speed = 10;
+        speed = bSpeed;
         direction = bDirection;
         hitbox = new Rectangle(x,y,10,30);
     }
