@@ -57,6 +57,8 @@ public class Player extends Entity{
                 x -= speed;
             }
         }
+        hitbox.x = x;
+        hitbox.y = y;
     }
     public void draw(Graphics2D g2) {
 

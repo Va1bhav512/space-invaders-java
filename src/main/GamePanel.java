@@ -9,6 +9,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Random;
 
 import entity.Bullet;
 import entity.Enemy;
@@ -25,7 +26,9 @@ public class GamePanel extends JPanel implements Runnable{
     public final int screenHeight = tileSize * maxScreenRow;
     private long lastBulletTimeByPlayer = 0;
     private final long bulletCooldown = 500000000;
+    private Random random = new Random();
     KeyHandler keyHandler = new KeyHandler();
+    public boolean isGameEnd = false;
 
     int playerX = 100;
     int playerY = screenHeight - tileSize;
@@ -70,18 +73,26 @@ public class GamePanel extends JPanel implements Runnable{
             lastTime = currentTime;
 
             if (delta >= 1) {
-                player.update();
-                updateBullets();
-                updateEnemiesDeath();
-                if (currentTime - lastEnemyUpdationTime >= enemyUpdateInterval) {
-                    updateEnemies();
-                    lastEnemyUpdationTime = currentTime;
+                if (!isGameEnd) {
+                    player.update();
+                    updateBullets();
+                    updateEnemiesDeath();
+                    if (currentTime - lastEnemyUpdationTime >= enemyUpdateInterval) {
+                        updateEnemies();
+                        lastEnemyUpdationTime = currentTime;
+                    }
+                    repaint();
+                    delta--;
                 }
-                repaint();
-                delta--;
+                else {
+                    // drawEndScreen();
+                    if (keyHandler.spacePressed || keyHandler.enterPressed) {
+                        isGameEnd = false;
+                    }
+                }
             }
         }
-    }
+    }   
     public void updateBullets() {
         long currentBulletTime = System.nanoTime();
         if ((keyHandler.spacePressed || keyHandler.enterPressed) && (currentBulletTime - lastBulletTimeByPlayer >= bulletCooldown)) {
@@ -99,7 +110,9 @@ public class GamePanel extends JPanel implements Runnable{
                 i--;
             }
             if (bullet.bDirection == "down" && bullet.collidesWithPlayer()) {
+                bullets.remove(i);
                 System.out.println("GAME OVER!");
+                isGameEnd = true;
             }
         }
     }
@@ -110,6 +123,9 @@ public class GamePanel extends JPanel implements Runnable{
                 if (enemy != null) {
                     if (enemy.isHit) {
                         enemyArray[i][j] = null;
+                    }
+                    if (random.nextDouble() < 0.0005) {
+                        enemy.shoot();
                     }
                 }
             }
@@ -124,7 +140,7 @@ public class GamePanel extends JPanel implements Runnable{
                     if (enemy.isHit) {
                         enemyArray[i][j] = null;
                     }
-                    enemy.updateBulletsEnemy();
+                    // enemy.updateBulletsEnemy();
                 }
                 // enemyArray[i][j].update();
             }
@@ -144,6 +160,13 @@ public class GamePanel extends JPanel implements Runnable{
         }
         for (Bullet bullet : bullets) {
             bullet.draw(g2);
+        }
+        if (isGameEnd) {
+            String text = "GAME ENDED!";
+            int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+            int x = this.screenWidth/2 - length/2;
+            int y = this.screenHeight/2;
+            g2.drawString(text, x, y);
         }
         g2.dispose();
     }

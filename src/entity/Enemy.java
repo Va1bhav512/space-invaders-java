@@ -15,8 +15,8 @@ public class Enemy extends Entity {
     int yPosition;
     int enemyNumber;
     int count = 0;
-    private long lastBulletTime;
-    private final long bulletCooldownForEnemy = 3000000000L;
+    // private long lastBulletTime;
+    // private final long bulletCooldownForEnemy = 3000000000L;
     // long enemyUpdateInterval;
     public Rectangle hitbox;
     public boolean isHit;
@@ -27,7 +27,7 @@ public class Enemy extends Entity {
         this.yPosition = yPosition;
         this.enemyNumber = enemyNumber;
         this.direction = "left";
-        this.lastBulletTime = System.nanoTime();
+        // this.lastBulletTime = System.nanoTime();
         this.isHit = false;
         setDefaultValues();
         getEnemyImage();
@@ -80,12 +80,15 @@ public class Enemy extends Entity {
         hitbox.x = x;
         hitbox.y = y;
     }
-    public void updateBulletsEnemy() {
-        long currentTime = System.nanoTime();
-        if (currentTime - lastBulletTime >= bulletCooldownForEnemy) {
+    // public void updateBulletsEnemy() {
+    //     long currentTime = System.nanoTime();
+    //     if (currentTime - lastBulletTime >= bulletCooldownForEnemy) {
+    //         gamePanel.bullets.add(new Bullet(gamePanel, x, y + gamePanel.tileSize, "down",1));
+    //         lastBulletTime = currentTime;
+    //     }
+    // }
+    public void shoot() {
             gamePanel.bullets.add(new Bullet(gamePanel, x, y + gamePanel.tileSize, "down",1));
-            lastBulletTime = currentTime;
-        }
     }
 
     public void draw(Graphics2D g2) {
