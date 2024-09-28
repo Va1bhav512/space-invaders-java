@@ -1,18 +1,18 @@
+# Space Invaders using Java
+
+My attempt at making Space Invaders using Java. The player can be moved using the arrow keys or by using `wasd`. The player can shoot using `Enter` or by using `Space`. The game ends if you get hit. Press `Enter` or `Space` to continue where you died. The game currently does not end if you kill all enemies. :warning: WIP
+
 ## Getting Started
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Prerequisites:
 
-## Folder Structure
+- Java Development Kit (JDK) 8+: Make sure you have the JDK installed.
 
-The workspace contains two folders by default, where:
+### How to run
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+Run these commands:
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+```bash
+javac -cp ./src ./src/main/Main.java -d ./bin
+java -cp ./bin main.Main
+```
