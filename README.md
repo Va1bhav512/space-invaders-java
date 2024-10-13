@@ -14,5 +14,7 @@ Run these commands:
 
 ```bash
 javac -cp ./src ./src/main/Main.java -d ./bin
+```
+```bash
 java -cp ./bin main.Main
 ```
