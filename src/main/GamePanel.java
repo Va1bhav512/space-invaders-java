@@ -56,6 +56,14 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread = new Thread(this);
         gameThread.start();
     }
+    private void resetGame() {
+      isGameEnd = false;
+      bullets.clear();
+      enemyBullets.clear();
+      xEnemyLastRow.clear();
+      player = new Player(this, keyHandler);
+      enemyArray = initializeEnemyArray(2);
+    }
 
     @Override
     public void run() {
@@ -81,15 +89,21 @@ public class GamePanel extends JPanel implements Runnable{
                         updateEnemies();
                         lastEnemyUpdationTime = currentTime;
                     }
-                    repaint();
-                    delta--;
                 }
                 else {
                     // drawEndScreen();
                     if (keyHandler.spacePressed || keyHandler.enterPressed) {
-                        isGameEnd = false;
+                      isGameEnd = false;
+                      resetGame();
+                      keyHandler.spacePressed = false;
+                      keyHandler.enterPressed = true;
+                      lastEnemyUpdationTime = System.nanoTime();
+                      startGameThread();
+                      return;
                     }
                 }
+                    repaint();
+                    delta--;
             }
         }
     }   
