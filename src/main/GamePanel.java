@@ -96,7 +96,7 @@ public class GamePanel extends JPanel implements Runnable{
                       isGameEnd = false;
                       resetGame();
                       keyHandler.spacePressed = false;
-                      keyHandler.enterPressed = true;
+                      keyHandler.enterPressed = false;
                       lastEnemyUpdationTime = System.nanoTime();
                       startGameThread();
                       return;
