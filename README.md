@@ -1,6 +1,6 @@
 # Space Invaders using Java
 
-My attempt at making Space Invaders using Java. The player can be moved using the arrow keys or by using `wasd`. The player can shoot using `Enter` or by using `Space`. The game ends if you get hit. Press `Enter` or `Space` to continue where you died. The game currently does not end if you kill all enemies. :warning: WIP
+My attempt at making Space Invaders using Java. The player can be moved using the arrow keys or by using `wasd`. The player can shoot using `Enter` or by using `Space`. The game ends if you get hit. Press `Enter` or `Space` to restart. The game currently does not end if you kill all enemies. :warning: WIP
 
 ## Getting Started
 
