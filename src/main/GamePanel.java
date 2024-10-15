@@ -29,6 +29,8 @@ public class GamePanel extends JPanel implements Runnable{
     private Random random = new Random();
     KeyHandler keyHandler = new KeyHandler();
     public boolean isGameEnd = false;
+    public boolean enemiesRemain = true;
+    public boolean lost = false;
 
     int playerX = 100;
     int playerY = screenHeight - tileSize;
@@ -57,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread.start();
     }
     private void resetGame() {
+      enemiesRemain = true;
       isGameEnd = false;
       bullets.clear();
       enemyBullets.clear();
@@ -93,7 +96,6 @@ public class GamePanel extends JPanel implements Runnable{
                 else {
                     // drawEndScreen();
                     if (keyHandler.spacePressed || keyHandler.enterPressed) {
-                      isGameEnd = false;
                       resetGame();
                       keyHandler.spacePressed = false;
                       keyHandler.enterPressed = false;
@@ -125,16 +127,17 @@ public class GamePanel extends JPanel implements Runnable{
             }
             if (bullet.bDirection == "down" && bullet.collidesWithPlayer()) {
                 bullets.remove(i);
-                System.out.println("GAME OVER!");
                 isGameEnd = true;
             }
         }
     }
     public void updateEnemiesDeath() {
+        enemiesRemain = false;
         for (int i = 0; i < enemyArray.length; i++) {
             for (int j = 0; j < enemyArray[0].length; j++) {
                 Enemy enemy = enemyArray[i][j];
                 if (enemy != null) {
+                    enemiesRemain = true;
                     if (enemy.isHit) {
                         enemyArray[i][j] = null;
                     }
@@ -143,6 +146,9 @@ public class GamePanel extends JPanel implements Runnable{
                     }
                 }
             }
+        }
+        if (!enemiesRemain) {
+          isGameEnd = true;
         }
     }
     public void updateEnemies() {
@@ -177,6 +183,11 @@ public class GamePanel extends JPanel implements Runnable{
         }
         if (isGameEnd) {
             String text = "GAME ENDED!";
+            if (!enemiesRemain) {
+              text += " AND YOU WON!";
+            } else if (lost) {
+              text += " AND YOU LOST!";
+            }
             int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             int x = this.screenWidth/2 - length/2;
             int y = this.screenHeight/2;

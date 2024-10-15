@@ -53,7 +53,7 @@ public class Enemy extends Entity {
             }
             defaultImage = ImageIO.read(f1);
         } catch (IOException e) {
-            e.printStackTrace();;
+            e.printStackTrace();
         }
     }
     public void update() {
@@ -76,6 +76,10 @@ public class Enemy extends Entity {
             }
             x += speed;
             count++;
+        }
+        if (y >= gamePanel.screenHeight - gamePanel.tileSize) {
+          gamePanel.isGameEnd = true;
+          gamePanel.lost = true;
         }
         hitbox.x = x;
         hitbox.y = y;
