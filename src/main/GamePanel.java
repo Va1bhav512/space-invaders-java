@@ -31,6 +31,7 @@ public class GamePanel extends JPanel implements Runnable{
     public boolean isGameEnd = false;
     public boolean enemiesRemain = true;
     public boolean lost = false;
+    public int score = 0;
 
     int playerX = 100;
     int playerY = screenHeight - tileSize;
@@ -59,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread.start();
     }
     private void resetGame() {
+      score = 0;
       enemiesRemain = true;
       isGameEnd = false;
       bullets.clear();
@@ -140,6 +142,7 @@ public class GamePanel extends JPanel implements Runnable{
                     enemiesRemain = true;
                     if (enemy.isHit) {
                         enemyArray[i][j] = null;
+                        score++;
                     }
                     if (random.nextDouble() < 0.0005) {
                         enemy.shoot();
@@ -181,8 +184,13 @@ public class GamePanel extends JPanel implements Runnable{
         for (Bullet bullet : bullets) {
             bullet.draw(g2);
         }
+        String scoreString = Integer.toString(score);
+        int length1 = (int)g2.getFontMetrics().getStringBounds(scoreString, g2).getWidth();
+        int x1 = this.tileSize/2 - length1/2;
+        int y1 = this.tileSize/2-length1/2;
+        g2.drawString(scoreString,x1,y1);
         if (isGameEnd) {
-            String text = "GAME ENDED!";
+            String text = "GAME ENDED! YOUR SCORE WAS " + score;
             if (!enemiesRemain) {
               text += " AND YOU WON!";
             } else if (lost) {
