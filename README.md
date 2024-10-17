@@ -10,11 +10,8 @@ Prerequisites:
 
 ### How to run
 
-Run these commands:
+Run the command:
 
 ```bash
-javac -cp ./src ./src/main/Main.java -d ./bin
-```
-```bash
-java -cp ./bin main.Main
+javac -cp ./src ./src/main/Main.java -d ./bin && java -cp ./bin main.Main
 ```
