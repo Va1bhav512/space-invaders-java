@@ -184,10 +184,10 @@ public class GamePanel extends JPanel implements Runnable{
         for (Bullet bullet : bullets) {
             bullet.draw(g2);
         }
-        String scoreString = Integer.toString(score);
+        String scoreString = "Score: " + Integer.toString(score);
         int length1 = (int)g2.getFontMetrics().getStringBounds(scoreString, g2).getWidth();
         int x1 = this.tileSize/2 - length1/2;
-        int y1 = this.tileSize/2-length1/2;
+        int y1 = this.tileSize/2 - length1/2 + this.tileSize/2;
         g2.drawString(scoreString,x1,y1);
         if (isGameEnd) {
             String text = "GAME ENDED! YOUR SCORE WAS " + score;
